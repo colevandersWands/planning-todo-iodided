@@ -14,7 +14,7 @@
 }
 
 %% md
-[__Planning a ToDo List__](https://github.com/elewa-academy/planning-todo-list-mvclh) 
+[__Planning a ToDo List__](https://github.com/colevandersWands/planning-todo-iodided) 
 
 User stories;  
 1. add a todo  
@@ -33,12 +33,17 @@ Dev plan:
 | 4 | _delete\_one_; reads user input and calls the controller | _delete\_one_; calls the model to delete said item, displays to todo list | _delete\_one_; deletes selected item from memory | |   
 | 5 | _clear\_display_; calls controller | _clear\_display_; calls view | | _clear\_display_; clears the display |
 
----
 
 (there is no L in this app, it's all about state and not logic)
 
+___  
+___
+
 %% md
 __Step 0__: setting up the infrastructure
+
+___
+___
 
 %% js
 let handler = {};
@@ -59,9 +64,10 @@ __user story 1__: add a todo
 | 1 | _add\_todo_; read from the UI & call the controller | _add\_todo_; add new todo to the model | _create_; save the new todo | |
 
 %% js
-let handler = { // step 0
+var handler_1 = { // step 0
   add_todo: function(new_todo) {
-    controller.add_todo(new_todo)
+    let new_todo = document.getElementById('input-1').value;
+    controller.add_todo(new_todo);
   }
 };
 
@@ -80,7 +86,14 @@ let model = { // step 0
 
 let view = {}; // step 0
 
-handler.add_todo('story 1');
+
+%%md
+<input id='input-1'></input>
+<button onclick='handler_1.add_todo()'>add todo</button> 
+<br>
+<hr>
+<hr>
+
 
 %% md
 __User Story 2__: see all todos
@@ -90,9 +103,10 @@ __User Story 2__: see all todos
 | 2 | _read\_all_; call the controller | _read\_all_; read all from the model, call the view to display everything | _read\_all_; return everything in memory | _display\_all_; display all items to the UI |
 
 %% js
-let handler = { // step 0
-  add_todo: function(new_todo) { // step 1
-    controller.add_todo(new_todo)
+var handler_2 = { // step 0
+  add_todo: function() { // step 1
+    let new_todo = document.getElementById('input-2').value;
+    controller.add_todo(new_todo);
   },
   read_all: function() {
     controller.read_all();
@@ -121,13 +135,24 @@ let model = { // step 0
 
 let view = { // step 0
   display_all: function(all) {
-    console.log(all);
+    let story_2_display = document.getElementById('output-2');
+    story_2_display.innerHTML += '<br>' + JSON.stringify(all);
   }
 };
 
-handler.add_todo('story 1')
-handler.add_todo('story 2')
-handler.read_all()
+
+%%md
+<input id='input-2'></input>
+<button onclick='handler_2.add_todo()'>add todo</button> 
+<br>
+<button onclick='handler_2.read_all()'>display all</button> 
+
+<p>story 2 output:</p>
+<div id='output-2'></div>
+<br>
+<hr>
+<hr>
+
 
 %% md
 __Step 3__: update todos
@@ -137,14 +162,17 @@ __Step 3__: update todos
 | 3 | _update\_one_; read old item and new value from UI.  Call the controller | _update\_one_; call the model to update the correct entry, call view to display new todo list | _update\_one_; updates the correct entry in memory | |  
 
 %% js
-let handler = { // step 0
-  add_todo: function(new_todo) { // step 1
-    controller.add_todo(new_todo)
+var handler_3 = { // step 0
+  add_todo: function() { // step 1
+    let new_todo = document.getElementById('input-3').value;
+    controller.add_todo(new_todo);
   },
   read_all: function() { // step 2
     controller.read_all();
   },
-  update_one: function(old_value, new_value) {
+  update_one: function() {
+    let old_value = document.getElementById('old-3').value;
+    let new_value = document.getElementById('new-3').value;
     controller.update_one(old_value, new_value);
   }
 };
@@ -181,15 +209,25 @@ let model = { // step 0
 
 let view = { // step 0
   display_all: function(all) { // step 2
-    console.log(all);
+    let story_3_display = document.getElementById('output-3');
+    story_3_display.innerHTML += '<br>' + JSON.stringify(all);
   }
 };
 
-handler.add_todo('story 1')
-handler.add_todo('story 2')
-handler.read_all()
-handler.update_one('story 2', 'new story 2')
-handler.read_all()
+%%md
+<input id='input-3'></input>
+<button onclick='handler_3.add_todo()'>add todo</button> 
+<br>
+<input value='old value' id='old-3'></input><input value='new value' id='new-3'></input>
+<button onclick='handler_3.update_one()'>update todo</button> 
+<br>
+<button onclick='handler_3.read_all()'>display all</button> 
+
+<p>story 3 output:</p>
+<div id='output-3'></div>
+<br>
+<hr>
+<hr>
 
 %% md
 __story 4:__ delete one
@@ -198,21 +236,25 @@ __story 4:__ delete one
 | --- | --- | --- | --- | --- |   
 | 4 | _delete\_one_; reads user input and calls the controller | _delete\_one_; calls the model to delete said item, displays to todo list | _delete\_one_; deletes selected item from memory | |   
 
-%% js
+%%js
 // set up all of the objects that we'll need
 // our application will run in the console
 
-let handler = { // step 0
-  add_todo: function(new_todo) { // step 1
-    controller.add_todo(new_todo)
+var handler_4 = { // step 0
+  add_todo: function() { // step 1
+    let new_todo = document.getElementById('input-4').value;
+    controller.add_todo(new_todo);
   },
   read_all: function() { // step 2
     controller.read_all();
   },
-  update_one: function(old_value, new_value) { // step 3
+  update_one: function() { // step 3
+    let old_value = document.getElementById('old-4').value;
+    let new_value = document.getElementById('new-4').value;
     controller.update_one(old_value, new_value);
   },
-  delete_one: function(todo_togo) {
+  delete_one: function() {
+    let todo_togo = document.getElementById('togo-4').value;
     controller.delete_one(todo_togo); 
   }
 };
@@ -259,17 +301,30 @@ let model = { // step 0
 
 let view = { // step 0
   display_all: function(all) { // step 2
-    console.log(all);
+    let story_4_display = document.getElementById('output-4');
+    story_4_display.innerHTML += '<br>' + JSON.stringify(all);
   }
 };
 
-handler.add_todo('story 1')
-handler.add_todo('story 2')
-handler.read_all()
-handler.update_one('story 2', 'new story 2')
-handler.read_all()
-handler.delete_one('story 1')
-handler.read_all()
+%%md
+<input id='input-4'></input>
+<button onclick='handler_4.add_todo()'>add todo</button> 
+<br>
+<input value='old value' id='old-4'></input><input value='new value' id='new-4'></input>
+<button onclick='handler_4.update_one()'>update todo</button> 
+<br>
+<input id='togo-4'></input>
+<button onclick='handler_4.delete_one()'>delete todo</button> 
+<br>
+<button onclick='handler_4.read_all()'>display all</button> 
+
+<p>story 4 output:</p>
+<div id='output-4'></div>
+<br>
+<hr>
+<hr>
+
+
 </script>
 <div id='page'></div>
 <script src='https://iodide.io/stable/iodide.stable.js'></script>
