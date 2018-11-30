@@ -35,3 +35,6 @@ let view = { // step 0
     console.log(all);
   }
 };
+
+handler.add('a');
+handler.read_all();
