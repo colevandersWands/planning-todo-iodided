@@ -21,3 +21,6 @@ let model = { // step 0
 };
 
 let view = {}; // step 0
+
+handler.add('a');
+console.log(model.todos);
