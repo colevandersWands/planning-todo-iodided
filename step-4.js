@@ -61,3 +61,11 @@ let view = { // step 0
     console.log(all);
   }
 };
+
+handler.add_todo('a');
+handler.read_all();
+handler.update_one('a', 'b');
+hanlder.read_all();
+handler.delete_one('b');
+hanlder.read_all();
+
