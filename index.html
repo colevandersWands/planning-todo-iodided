@@ -1,1 +1,277 @@
-<script src="./mystep-4.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>untitled - iodide</title>
+<link rel="stylesheet" type="text/css" href="https://iodide.io/stable/iodide.stable.css">
+</head>
+<body>
+<script id="jsmd" type="text/jsmd">
+%% meta
+{
+  "lastSaved": "2018-11-30T16:50:21.733Z",
+  "lastExport": "2018-11-30T16:50:24.505Z"
+}
+
+%% md
+[__Planning a ToDo List__](https://github.com/elewa-academy/planning-todo-list-mvclh) 
+
+User stories;  
+1. add a todo  
+2. see all todos  
+3. update todos  
+4. delete one  
+5. clear display
+  
+Dev plan:
+
+|    | handler | controller | model | view |  
+| --- | --- | --- | --- | --- |   
+| 1 | _add\_todo_; read from the UI & call the controller | _add\_todo_; add new todo to the model | _create_; save the new todo | |    
+| 2 | _read\_all_; call the controller | _read\_all_; read all from the model, call the view to display everything | _read\_all_; return everything in memory | _display\_all_; display all items to the UI |  
+| 3 | _update\_one_; read old item and new value from UI.  Call the controller | _update\_one_; call the model to update the correct entry, call view to display new todo list | _update\_one_; updates the correct entry in memory | |  
+| 4 | _delete\_one_; reads user input and calls the controller | _delete\_one_; calls the model to delete said item, displays to todo list | _delete\_one_; deletes selected item from memory | |   
+| 5 | _clear\_display_; calls controller | _clear\_display_; calls view | | _clear\_display_; clears the display |
+
+---
+
+(there is no L in this app, it's all about state and not logic)
+
+%% md
+__Step 0__: setting up the infrastructure
+
+%% js
+let handler = {};
+
+let controller = {};
+
+let model = {
+  todos: []
+};
+
+let view = {};
+
+%% md
+__user story 1__: add a todo
+
+|    | handler | controller | model | view |  
+| --- | --- | --- | --- | --- |   
+| 1 | _add\_todo_; read from the UI & call the controller | _add\_todo_; add new todo to the model | _create_; save the new todo | |
+
+%% js
+let handler = { // step 0
+  add_todo: function(new_todo) {
+    controller.add_todo(new_todo)
+  }
+};
+
+let controller = { // step 0
+  add_todo: function(new_todo) {
+    model.create(new_todo);
+  }
+};
+
+let model = { // step 0
+  todos: [], // step 0
+  create: function(new_todo) {
+    this.todos.push(new_todo);
+  }
+};
+
+let view = {}; // step 0
+
+handler.add_todo('story 1');
+
+%% md
+__User Story 2__: see all todos
+
+|    | handler | controller | model | view |  
+| --- | --- | --- | --- | --- |   
+| 2 | _read\_all_; call the controller | _read\_all_; read all from the model, call the view to display everything | _read\_all_; return everything in memory | _display\_all_; display all items to the UI |
+
+%% js
+let handler = { // step 0
+  add_todo: function(new_todo) { // step 1
+    controller.add_todo(new_todo)
+  },
+  read_all: function() {
+    controller.read_all();
+  }
+};
+
+let controller = { // step 0
+  add_todo: function(new_todo) { // step 1
+    model.create(new_todo);
+  },
+  read_all: function() { 
+    let all = model.read_all();
+    view.display_all(all);
+  }
+};
+
+let model = { // step 0
+  todos: [], // step 0
+  create: function(new_todo) { // step 1
+    this.todos.push(new_todo);
+  },
+  read_all: function() {
+    return this.todos;
+  }
+};
+
+let view = { // step 0
+  display_all: function(all) {
+    console.log(all);
+  }
+};
+
+handler.add_todo('story 1')
+handler.add_todo('story 2')
+handler.read_all()
+
+%% md
+__Step 3__: update todos
+
+|    | handler | controller | model | view |  
+| --- | --- | --- | --- | --- |    
+| 3 | _update\_one_; read old item and new value from UI.  Call the controller | _update\_one_; call the model to update the correct entry, call view to display new todo list | _update\_one_; updates the correct entry in memory | |  
+
+%% js
+let handler = { // step 0
+  add_todo: function(new_todo) { // step 1
+    controller.add_todo(new_todo)
+  },
+  read_all: function() { // step 2
+    controller.read_all();
+  },
+  update_one: function(old_value, new_value) {
+    controller.update_one(old_value, new_value);
+  }
+};
+
+let controller = { // step 0
+  add_todo: function(new_todo) { // step 1
+    model.create(new_todo);
+  },
+  read_all: function() { // step 2
+    let all = model.read_all();
+    view.display_all(all);
+  },
+  update_one: function(old_value, new_value) {
+    model.update_one(old_value, new_value);
+    this.read_all();
+  }
+};
+
+let model = { // step 0
+  todos: [], // step 0
+  create: function(new_todo) { // step 1
+    this.todos.push(new_todo);
+  },
+  read_all: function() { // step 2
+    return this.todos;
+  },
+  update_one: function(old_value, new_value) {
+    let index = this.todos.indexOf(old_value);
+    if (index !== -1) {
+      this.todos[index] = new_value;
+    };
+  }
+};
+
+let view = { // step 0
+  display_all: function(all) { // step 2
+    console.log(all);
+  }
+};
+
+handler.add_todo('story 1')
+handler.add_todo('story 2')
+handler.read_all()
+handler.update_one('story 2', 'new story 2')
+handler.read_all()
+
+%% md
+__story 4:__ delete one
+
+|    | handler | controller | model | view |  
+| --- | --- | --- | --- | --- |   
+| 4 | _delete\_one_; reads user input and calls the controller | _delete\_one_; calls the model to delete said item, displays to todo list | _delete\_one_; deletes selected item from memory | |   
+
+%% js
+// set up all of the objects that we'll need
+// our application will run in the console
+
+let handler = { // step 0
+  add_todo: function(new_todo) { // step 1
+    controller.add_todo(new_todo)
+  },
+  read_all: function() { // step 2
+    controller.read_all();
+  },
+  update_one: function(old_value, new_value) { // step 3
+    controller.update_one(old_value, new_value);
+  },
+  delete_one: function(todo_togo) {
+    controller.delete_one(todo_togo); 
+  }
+};
+
+let controller = { // step 0
+  add_todo: function(new_todo) { // step 1
+    model.create(new_todo);
+  },
+  read_all: function() { // step 2
+    let all = model.read_all();
+    view.display_all(all);
+  },
+  update_one: function(old_value, new_value) { // step 3
+    model.update_one(old_value, new_value);
+    this.read_all();
+  },
+  delete_one: function(todo_togo) {
+    model.delete_one(todo_togo);
+    this.read_all();
+  }
+};
+
+let model = { // step 0
+  todos: [], // step 0
+  create: function(new_todo) { // step 1
+    this.todos.push(new_todo);
+  },
+  read_all: function() { // step 2
+    return this.todos;
+  },
+  update_one: function(old_value, new_value) { // step 3
+    let index = this.todos.indexOf(old_value);
+    if (index !== -1) {
+      this.todos[index] = new_value;
+    };
+  },
+  delete_one: function(todo_togo) {
+    let index = this.todos.indexOf(todo_togo);
+    if (index !== -1) {
+      this.todos.splice(index, 1);
+    };
+  }
+};
+
+let view = { // step 0
+  display_all: function(all) { // step 2
+    console.log(all);
+  }
+};
+
+handler.add_todo('story 1')
+handler.add_todo('story 2')
+handler.read_all()
+handler.update_one('story 2', 'new story 2')
+handler.read_all()
+handler.delete_one('story 1')
+handler.read_all()
+</script>
+<div id='page'></div>
+<script src='https://iodide.io/stable/iodide.stable.js'></script>
+</body>
+</html>
