@@ -1,3 +1,9 @@
+# Planning a todo list MVCLH style
+
+> Separate the concerns!
+
+[project write-up](https://colevanderswands.github.io/planning-todo-iodided)  
+
 User stories;  
 1. add a todo  
 2. see all todos  
